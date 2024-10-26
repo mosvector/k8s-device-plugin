@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: mosvector-device-plugin
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: mosvector-device-plugin
+  template:
+    metadata:
+      labels:
+        app: mosvector-device-plugin
+    spec:
+      containers:
+      - name: device-plugin
+        image: github.com/mosvector/k8s-device-plugin:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ["ALL"]
+        volumeMounts:
+        - name: device-plugin-sock
+          mountPath: /var/lib/kubelet/device-plugins
+      volumes:
+      - name: device-plugin-sock
+        hostPath:
+          path: /var/lib/kubelet/device-plugins

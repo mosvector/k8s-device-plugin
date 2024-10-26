@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-mosvector-device
+spec:
+  containers:
+  - name: test-mosvector-device-box
+    image: alpine:latest
+    command: ["sh", "-c", "sleep 1000000"]
+    resources:
+      requests:
+        github.com/mosvector: 1
+      limits:
+        github.com/mosvector: 1
+  restartPolicy: OnFailure
+ 
